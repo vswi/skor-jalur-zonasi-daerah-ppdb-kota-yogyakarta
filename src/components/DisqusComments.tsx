@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 declare global {
   interface Window {
     DISQUS: any;
+    disqus_config: any;
   }
 }
 
