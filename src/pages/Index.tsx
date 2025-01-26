@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { RefreshCw, WhatsApp } from "lucide-react";
+import { RefreshCw, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Giscus from '@giscus/react';
 
@@ -190,7 +190,7 @@ const Index = () => {
             variant="default"
             className="bg-green-600 hover:bg-green-700"
           >
-            <WhatsApp className="h-4 w-4 mr-2" />
+            <MessageCircle className="h-4 w-4 mr-2" />
             Tanya via WhatsApp
           </Button>
         </div>
