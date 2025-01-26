@@ -49,7 +49,9 @@ const Index = () => {
   const [totalScore, setTotalScore] = useState<number>(0);
 
   const handleGradeChange = (subjectIndex: number, field: string, value: string) => {
-    const numericValue = parseFloat(value) || 0;
+    // Remove leading zeros and handle empty/invalid inputs
+    const cleanedValue = value.replace(/^0+/, ''); // Remove leading zeros
+    const numericValue = cleanedValue === '' ? 0 : parseFloat(cleanedValue);
     
     setGrades(prevGrades => {
       const newGrades = [...prevGrades];
