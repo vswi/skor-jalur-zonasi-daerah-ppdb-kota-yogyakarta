@@ -11,6 +11,19 @@ const DisqusComments = () => {
     const script = document.createElement('script');
     script.src = 'https://ppdbsleman.disqus.com/embed.js';
     script.setAttribute('data-timestamp', String(+new Date()));
+    script.async = true;
+    
+    // Add error handling for script loading
+    script.onerror = () => {
+      console.error('Error loading Disqus script');
+    };
+
+    // Configure Disqus
+    window.disqus_config = function() {
+      this.page.url = window.location.href;
+      this.page.identifier = window.location.pathname;
+    };
+
     document.body.appendChild(script);
 
     return () => {
@@ -21,7 +34,17 @@ const DisqusComments = () => {
           disqusThread.removeChild(disqusThread.firstChild);
         }
       }
-      script.remove();
+      // Remove the script
+      const scripts = document.getElementsByTagName('script');
+      for (let i = 0; i < scripts.length; i++) {
+        if (scripts[i].src.includes('ppdbsleman.disqus.com')) {
+          scripts[i].remove();
+        }
+      }
+      // Reset DISQUS if it exists
+      if (window.DISQUS) {
+        window.DISQUS.reset();
+      }
     };
   }, []);
 
