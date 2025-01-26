@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 interface GradeData {
   subject: string;
@@ -12,6 +14,7 @@ interface GradeData {
 }
 
 const Index = () => {
+  const tableRef = useRef<HTMLDivElement>(null);
   const [grades, setGrades] = useState<GradeData[]>([
     {
       subject: "Bahasa Indonesia",
@@ -68,8 +71,6 @@ const Index = () => {
     );
     const aspdSum = grades.reduce((acc, curr) => acc + curr.aspdScore, 0);
     
-    // Formula: (I6*0.4)+(G6*0.6)+D8
-    // where I6 is averageSum, G6 is aspdSum, and D8 is additionalScore
     const total = (averageSum * 0.4) + (aspdSum * 0.6) + additionalScore;
     setTotalScore(parseFloat(total.toFixed(2)));
   };
@@ -78,34 +79,46 @@ const Index = () => {
     calculateTotal();
   }, [grades, additionalScore]);
 
-  const handleGradeChange = (
-    subjectIndex: number,
-    gradeType: string,
-    value: string
-  ) => {
-    const newGrades = [...grades];
-    const numValue = value === "" ? 0 : parseFloat(value);
-
-    if (gradeType === "aspd") {
-      newGrades[subjectIndex].aspdScore = numValue;
-    } else {
-      const [className, semKey] = gradeType.split("-");
-      const classKey = `class${className}` as keyof GradeData["grades"];
-      const semesterKey = `sem${semKey}` as keyof GradeData["grades"]["class4"];
-      
-      // @ts-ignore - We know these keys exist
-      newGrades[subjectIndex].grades[classKey][semesterKey] = numValue;
+  const exportAsPDF = () => {
+    if (tableRef.current) {
+      html2canvas(tableRef.current).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('ppdb-skor-calculation.pdf');
+      });
     }
+  };
 
-    setGrades(newGrades);
+  const exportAsImage = () => {
+    if (tableRef.current) {
+      html2canvas(tableRef.current).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'ppdb-skor-calculation.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-          Kalkulator Skor PPDB Sleman
+      <div className="max-w-7xl mx-auto" ref={tableRef}>
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+          Kalkulator Simulasi Skor PPDB SMP Negeri Sleman
         </h1>
+        
+        <div className="bg-blue-50 p-4 rounded-lg mb-6">
+          <h2 className="font-semibold text-blue-800 mb-2">Petunjuk Penggunaan:</h2>
+          <ol className="list-decimal list-inside text-blue-700 space-y-1">
+            <li>Isikan nilai rapor untuk setiap mata pelajaran di setiap semester</li>
+            <li>Masukkan nilai ASPD untuk setiap mata pelajaran</li>
+            <li>Jika ada, tambahkan nilai prestasi pada kolom yang tersedia</li>
+            <li>Skor total akan dihitung secara otomatis</li>
+          </ol>
+        </div>
         
         <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -116,8 +129,8 @@ const Index = () => {
                 <th className="bg-cyan-500 text-white px-4 py-2" colSpan={2}>Nilai Kelas 5</th>
                 <th className="bg-blue-600 text-white px-4 py-2">Nilai Kelas 6</th>
                 <th className="bg-gray-700 text-white px-4 py-2">Nilai ASPD</th>
-                <th className="bg-blue-900 text-white px-4 py-2">Jumlah Nilai</th>
-                <th className="bg-blue-900 text-white px-4 py-2">Rata-Rata Nilai</th>
+                <th className="bg-blue-900 text-white px-4 py-2">Jumlah Nilai Rapor</th>
+                <th className="bg-blue-900 text-white px-4 py-2">Rata-Rata Nilai Rapor</th>
               </tr>
               <tr>
                 <th className="px-4 py-2"></th>
@@ -240,11 +253,48 @@ const Index = () => {
               />
             </div>
 
-            <div className="flex items-center gap-4">
-              <span className="font-bold">SKOR TOTAL PPDB:</span>
-              <span className="text-2xl font-bold text-blue-600">
-                {totalScore.toFixed(2)}
-              </span>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <span className="font-bold">SKOR TOTAL PPDB:</span>
+                <span className="text-2xl font-bold text-blue-600">
+                  {totalScore.toFixed(2)}
+                </span>
+              </div>
+              
+              <div className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                <p className="font-semibold mb-2">* SKOR TOTAL PPDB Sleman adalah gabungan:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>(Total Nilai ASPD × 60%)</li>
+                  <li>(Total Rata-Rata Rapor × 40%)</li>
+                  <li>Nilai Prestasi (Jika Ada)</li>
+                </ul>
+                <p className="mt-2">
+                  Berdasarkan rumus dalam{" "}
+                  <a 
+                    href="https://disdik.slemankab.go.id/wp-content/uploads/2023/05/JUKNIS-PPDB-SMP-TAHUN-PELAJARAN-2023-2024.pdf"
+                    className="text-blue-600 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Juknis PPDB SMP
+                  </a>
+                </p>
+              </div>
+
+              <div className="flex gap-4 mt-4">
+                <button
+                  onClick={exportAsPDF}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                >
+                  Export sebagai PDF
+                </button>
+                <button
+                  onClick={exportAsImage}
+                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+                >
+                  Export sebagai Gambar
+                </button>
+              </div>
             </div>
           </div>
         </div>
