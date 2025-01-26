@@ -12,15 +12,15 @@ const DisqusComments = () => {
     // Reset any existing Disqus instance
     if (window.DISQUS) {
       window.DISQUS.reset({
-        reload: true
+        reload: true,
       });
       return;
     }
 
     // Configure Disqus
-    window.disqus_config = function() {
-      this.page.url = 'https://skor-ppdb-sleman.lovable.app/';
-      this.page.identifier = '?ppdbsleman';
+    window.disqus_config = function () {
+      this.page.url = window.location.href; // Use the current page URL
+      this.page.identifier = window.location.pathname; // Use unique identifier for the page
     };
 
     // Load Disqus script
@@ -29,32 +29,35 @@ const DisqusComments = () => {
     script.setAttribute('data-timestamp', String(+new Date()));
     script.async = true;
     script.crossOrigin = 'anonymous'; // Add cross-origin attribute
-    
-    // Add error handling for script loading
+
+    // Error handling for script loading
+    script.onload = () => {
+      if (!window.DISQUS) {
+        console.error('Disqus did not initialize properly. Check your configuration.');
+      }
+    };
     script.onerror = () => {
-      console.error('Error loading Disqus script');
+      console.error('Error loading Disqus script. Possible CORS issue or incorrect domain setup.');
     };
 
     document.body.appendChild(script);
 
+    // Cleanup on unmount
     return () => {
-      // Cleanup
       const disqusThread = document.getElementById('disqus_thread');
       if (disqusThread) {
-        while (disqusThread.firstChild) {
-          disqusThread.removeChild(disqusThread.firstChild);
-        }
+        disqusThread.remove();
       }
 
-      // Remove the script
-      script.remove();
+      const disqusScript = document.querySelector('script[src*="disqus.com/embed.js"]');
+      if (disqusScript) {
+        disqusScript.remove();
+      }
 
-      // Reset DISQUS if it exists
       if (window.DISQUS) {
-        window.DISQUS.reset();
+        delete window.DISQUS;
       }
 
-      // Clean up the config
       delete window.disqus_config;
     };
   }, []);
