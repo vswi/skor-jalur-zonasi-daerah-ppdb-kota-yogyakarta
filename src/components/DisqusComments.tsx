@@ -9,6 +9,29 @@ declare global {
 
 const DisqusComments = () => {
   useEffect(() => {
+    // Reset any existing Disqus instance
+    if (window.DISQUS) {
+      window.DISQUS.reset({
+        reload: true
+      });
+      return;
+    }
+
+    // Configure Disqus
+    window.disqus_config = function() {
+      this.page.url = window.location.href;
+      this.page.identifier = window.location.pathname;
+      this.callbacks = {
+        onReady: () => {
+          console.log('Disqus is ready');
+        },
+        onError: () => {
+          console.error('Disqus failed to load');
+        }
+      };
+    };
+
+    // Load Disqus script
     const script = document.createElement('script');
     script.src = 'https://ppdbsleman.disqus.com/embed.js';
     script.setAttribute('data-timestamp', String(+new Date()));
@@ -17,12 +40,6 @@ const DisqusComments = () => {
     // Add error handling for script loading
     script.onerror = () => {
       console.error('Error loading Disqus script');
-    };
-
-    // Configure Disqus
-    window.disqus_config = function() {
-      this.page.url = window.location.href;
-      this.page.identifier = window.location.pathname;
     };
 
     document.body.appendChild(script);
@@ -35,17 +52,17 @@ const DisqusComments = () => {
           disqusThread.removeChild(disqusThread.firstChild);
         }
       }
+
       // Remove the script
-      const scripts = document.getElementsByTagName('script');
-      for (let i = 0; i < scripts.length; i++) {
-        if (scripts[i].src.includes('ppdbsleman.disqus.com')) {
-          scripts[i].remove();
-        }
-      }
+      script.remove();
+
       // Reset DISQUS if it exists
       if (window.DISQUS) {
         window.DISQUS.reset();
       }
+
+      // Clean up the config
+      delete window.disqus_config;
     };
   }, []);
 
