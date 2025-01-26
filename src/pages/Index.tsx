@@ -160,191 +160,232 @@ const Index = () => {
   };
 
   return (
-  
-  
-  <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-  <div className="max-w-7xl mx-auto" ref={tableRef}>
-    <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-      Kalkulator Simulasi Skor PPDB SMP Negeri Sleman
-    </h1>
-    
-    <div className="bg-blue-50 p-4 rounded-lg mb-6">
-      <h2 className="font-semibold text-blue-800 mb-2">Petunjuk Penggunaan:</h2>
-      <ol className="list-decimal list-inside text-blue-700 space-y-1">
-        <li>Isikan nilai rapor untuk setiap mata pelajaran di setiap semester</li>
-        <li>Masukkan nilai ASPD untuk setiap mata pelajaran</li>
-        <li>Jika ada, tambahkan nilai prestasi pada kolom yang tersedia</li>
-        <li>Skor total akan dihitung secara otomatis</li>
-      </ol>
-    </div>
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto" ref={tableRef}>
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+          Kalkulator Simulasi Skor PPDB SMP Negeri Sleman
+        </h1>
+        
+        <div className="bg-blue-50 p-4 rounded-lg mb-6">
+          <h2 className="font-semibold text-blue-800 mb-2">Petunjuk Penggunaan:</h2>
+          <ol className="list-decimal list-inside text-blue-700 space-y-1">
+            <li>Isikan nilai rapor untuk setiap mata pelajaran di setiap semester</li>
+            <li>Masukkan nilai ASPD untuk setiap mata pelajaran</li>
+            <li>Jika ada, tambahkan nilai prestasi pada kolom yang tersedia</li>
+            <li>Skor total akan dihitung secara otomatis</li>
+          </ol>
+        </div>
 
-    <div className="bg-white rounded-lg shadow overflow-x-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-        {grades.map((subject, index) => (
-          <div key={subject.subject} className="border p-4 rounded-lg bg-white shadow-sm">
-            <h3 className="font-semibold text-lg mb-2">{subject.subject}</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Kelas 4 SMT 1</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={subject.grades.class4.sem1}
-                  onChange={(e) => handleGradeChange(index, "4-1", e.target.value)}
-                  onFocus={handleInputFocus}
-                  className="w-24 p-1 border rounded"
-                />
+        <div className="flex justify-end gap-4 mb-4">
+          <Button
+            onClick={resetAllGrades}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className="h-4 w-4" />
+            Reset Semua Nilai
+          </Button>
+          <Button
+            onClick={openWhatsApp}
+            variant="default"
+            className="bg-green-600 hover:bg-green-700"
+          >
+            <MessageCircle className="h-4 w-4 mr-2" />
+            Tanya via WhatsApp
+          </Button>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th className="bg-blue-800 text-white px-4 py-3">Mata Pelajaran</th>
+                <th className="bg-yellow-500 text-white px-4 py-2" colSpan={2}>Nilai Kelas 4</th>
+                <th className="bg-cyan-500 text-white px-4 py-2" colSpan={2}>Nilai Kelas 5</th>
+                <th className="bg-blue-600 text-white px-4 py-2">Nilai Kelas 6</th>
+                <th className="bg-gray-700 text-white px-4 py-2">Nilai ASPD</th>
+                <th className="bg-blue-900 text-white px-4 py-2">Jumlah Nilai Rapor</th>
+                <th className="bg-blue-900 text-white px-4 py-2">Rata-Rata Nilai Rapor</th>
+              </tr>
+              <tr>
+                <th className="px-4 py-2"></th>
+                <th className="bg-yellow-400 text-white px-4 py-2">SMT 1</th>
+                <th className="bg-yellow-400 text-white px-4 py-2">SMT 2</th>
+                <th className="bg-cyan-400 text-white px-4 py-2">SMT 1</th>
+                <th className="bg-cyan-400 text-white px-4 py-2">SMT 2</th>
+                <th className="bg-blue-500 text-white px-4 py-2">SMT 1</th>
+                <th className="px-4 py-2"></th>
+                <th className="px-4 py-2"></th>
+                <th className="px-4 py-2"></th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {grades.map((subject, index) => (
+                <tr key={subject.subject}>
+                  <td className="px-4 py-2 font-medium">{subject.subject}</td>
+                  <td className="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={subject.grades.class4.sem1}
+                      onChange={(e) => handleGradeChange(index, "4-1", e.target.value)}
+                      onFocus={handleInputFocus}
+                      className="w-20 p-1 border rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={subject.grades.class4.sem2}
+                      onChange={(e) => handleGradeChange(index, "4-2", e.target.value)}
+                      onFocus={handleInputFocus}
+                      className="w-20 p-1 border rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={subject.grades.class5.sem1}
+                      onChange={(e) => handleGradeChange(index, "5-1", e.target.value)}
+                      onFocus={handleInputFocus}
+                      className="w-20 p-1 border rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={subject.grades.class5.sem2}
+                      onChange={(e) => handleGradeChange(index, "5-2", e.target.value)}
+                      onFocus={handleInputFocus}
+                      className="w-20 p-1 border rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={subject.grades.class6.sem1}
+                      onChange={(e) => handleGradeChange(index, "6-1", e.target.value)}
+                      onFocus={handleInputFocus}
+                      className="w-20 p-1 border rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={subject.aspdScore}
+                      onChange={(e) => handleGradeChange(index, "aspd", e.target.value)}
+                      onFocus={handleInputFocus}
+                      className="w-20 p-1 border rounded"
+                    />
+                  </td>
+                  <td className="px-4 py-2 font-medium">
+                    {calculateSubjectSum(subject)}
+                  </td>
+                  <td className="px-4 py-2 font-medium">
+                    {calculateSubjectAverage(subject)}
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan={6} className="px-4 py-2 text-right font-bold">
+                  Total:
+                </td>
+                <td className="px-4 py-2 font-bold">
+                  {grades.reduce((acc, curr) => acc + curr.aspdScore, 0).toFixed(2)}
+                </td>
+                <td className="px-4 py-2 font-bold">
+                  {grades
+                    .reduce((acc, curr) => acc + parseFloat(calculateSubjectSum(curr).toString()), 0)
+                    .toFixed(2)}
+                </td>
+                <td className="px-4 py-2 font-bold">
+                  {grades
+                    .reduce(
+                      (acc, curr) => acc + parseFloat(calculateSubjectAverage(curr)),
+                      0
+                    )
+                    .toFixed(2)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="p-4 border-t">
+            <div className="flex items-center gap-4 mb-4">
+              <label className="font-medium">
+                Tambahan Nilai Prestasi (jika ada):
+              </label>
+              <input
+                type="number"
+                value={additionalScore}
+                onChange={(e) => setAdditionalScore(parseFloat(e.target.value) || 0)}
+                className="w-32 p-2 border rounded"
+              />
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-4">
+                <span className="font-bold">SKOR TOTAL PPDB:</span>
+                <span className="text-2xl font-bold text-blue-600">
+                  {totalScore.toFixed(2)}
+                </span>
               </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Kelas 4 SMT 2</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={subject.grades.class4.sem2}
-                  onChange={(e) => handleGradeChange(index, "4-2", e.target.value)}
-                  onFocus={handleInputFocus}
-                  className="w-24 p-1 border rounded"
-                />
+              
+              <div className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
+                <p className="font-semibold mb-2">* SKOR TOTAL PPDB Sleman adalah gabungan:</p>
+                <ul className="list-disc list-inside space-y-1">
+                  <li>(Total Nilai ASPD × 60%)</li>
+                  <li>(Total Rata-Rata Rapor × 40%)</li>
+                  <li>Nilai Prestasi (Jika Ada)</li>
+                </ul>
+                <p className="mt-2">
+                  Berdasarkan JUKNIS PPDB SMP NEGERI SLEMAN 2024-2025 di {" "}
+                  <a 
+                    href="https://smpn1prambanansleman.sch.id/wp-content/uploads/2024/05/Juknis-PPDB-SMP-2024-2025-Sleman.pdf"
+                    className="text-blue-600 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Juknis PPDB SMP
+                  </a>
+                </p>
               </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Kelas 5 SMT 1</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={subject.grades.class5.sem1}
-                  onChange={(e) => handleGradeChange(index, "5-1", e.target.value)}
-                  onFocus={handleInputFocus}
-                  className="w-24 p-1 border rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Kelas 5 SMT 2</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={subject.grades.class5.sem2}
-                  onChange={(e) => handleGradeChange(index, "5-2", e.target.value)}
-                  onFocus={handleInputFocus}
-                  className="w-24 p-1 border rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Kelas 6 SMT 1</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={subject.grades.class6.sem1}
-                  onChange={(e) => handleGradeChange(index, "6-1", e.target.value)}
-                  onFocus={handleInputFocus}
-                  className="w-24 p-1 border rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Nilai ASPD</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={subject.aspdScore}
-                  onChange={(e) => handleGradeChange(index, "aspd", e.target.value)}
-                  onFocus={handleInputFocus}
-                  className="w-24 p-1 border rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Jumlah Nilai Rapor</label>
-                <span className="font-medium">{calculateSubjectSum(subject)}</span>
-              </div>
-              <div className="flex flex-col">
-                <label className="text-sm font-medium">Rata-Rata Nilai Rapor</label>
-                <span className="font-medium">{calculateSubjectAverage(subject)}</span>
+
+              <div className="flex gap-4 mt-4">
+                <button
+                  onClick={exportAsPDF}
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                >
+                  Export sebagai PDF
+                </button>
+                <button
+                  onClick={exportAsImage}
+                  className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+                >
+                  Export sebagai Gambar
+                </button>
               </div>
             </div>
           </div>
-        ))}
-      </div>
-
-      <div className="p-4 border-t">
-        <div className="flex items-center gap-4 mb-4">
-          <label className="font-medium">Tambahan Nilai Prestasi (jika ada):</label>
-          <input
-            type="number"
-            value={additionalScore}
-            onChange={(e) => setAdditionalScore(parseFloat(e.target.value) || 0)}
-            className="w-32 p-2 border rounded"
-          />
         </div>
 
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
-            <span className="font-bold">SKOR TOTAL PPDB:</span>
-            <span className="text-2xl font-bold text-blue-600">
-              {totalScore.toFixed(2)}
-            </span>
-          </div>
-          
-          <div className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-            <p className="font-semibold mb-2">* SKOR TOTAL PPDB Sleman adalah gabungan:</p>
-            <ul className="list-disc list-inside space-y-1">
-              <li>(Total Nilai ASPD × 60%)</li>
-              <li>(Total Rata-Rata Rapor × 40%)</li>
-              <li>Nilai Prestasi (Jika Ada)</li>
-            </ul>
-            <p className="mt-2">
-              Berdasarkan JUKNIS PPDB SMP NEGERI SLEMAN 2024-2025 di {" "}
-              <a 
-                href="https://smpn1prambanansleman.sch.id/wp-content/uploads/2024/05/Juknis-PPDB-SMP-2024-2025-Sleman.pdf"
-                className="text-blue-600 hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Juknis PPDB SMP
-              </a>
-            </p>
-          </div>
-
-          <div className="flex gap-4 mt-4">
-            <button
-              onClick={exportAsPDF}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
-            >
-              Export sebagai PDF
-            </button>
-            <button
-              onClick={exportAsImage}
-              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
-            >
-              Export sebagai Gambar
-            </button>
-          </div>
+        <div className="mt-8">
+          <DisqusComments />
         </div>
       </div>
     </div>
-
-    <div className="mt-8">
-      <DisqusComments />
-    </div>
-  </div>
-</div>
-    
-    
-    
-    
   );
-  
-  
-  
-  
-  
-  
-  
-  
-  
 };
 
 export default Index;
