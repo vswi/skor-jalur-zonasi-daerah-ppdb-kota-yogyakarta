@@ -30,7 +30,7 @@ const DisqusComments = () => {
             overflow: hidden;
           }
         `}
-      </style>
+      </style><h2>Komentar:</h2>
       <div
         id="cusdis_thread"
         data-host="https://cusdis.com"
