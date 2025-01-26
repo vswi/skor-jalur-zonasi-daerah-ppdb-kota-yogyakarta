@@ -48,6 +48,34 @@ const Index = () => {
   const [additionalScore, setAdditionalScore] = useState<number>(0);
   const [totalScore, setTotalScore] = useState<number>(0);
 
+  const handleGradeChange = (subjectIndex: number, field: string, value: string) => {
+    const numericValue = parseFloat(value) || 0;
+    
+    setGrades(prevGrades => {
+      const newGrades = [...prevGrades];
+      const subject = { ...newGrades[subjectIndex] };
+
+      if (field === "aspd") {
+        subject.aspdScore = numericValue;
+      } else {
+        const [classNum, semNum] = field.split("-");
+        const classKey = `class${classNum}` as keyof typeof subject.grades;
+        const semKey = `sem${semNum}` as keyof typeof subject.grades[typeof classKey];
+        
+        subject.grades = {
+          ...subject.grades,
+          [classKey]: {
+            ...subject.grades[classKey],
+            [semKey]: numericValue
+          }
+        };
+      }
+
+      newGrades[subjectIndex] = subject;
+      return newGrades;
+    });
+  };
+
   const calculateSubjectSum = (gradeData: GradeData) => {
     const values = [
       gradeData.grades.class4.sem1,
