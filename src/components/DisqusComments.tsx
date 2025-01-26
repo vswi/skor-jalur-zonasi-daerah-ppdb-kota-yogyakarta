@@ -19,7 +19,7 @@ const DisqusComments = () => {
 
     // Configure Disqus
     window.disqus_config = function() {
-      this.page.url = window.location.href;
+      this.page.url = 'https://skor-ppdb-sleman.lovable.app/';
       this.page.identifier = window.location.pathname;
     };
 
