@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
 
-
-
 const DisqusComments = () => {
   useEffect(() => {
     // Load Cusdis script
@@ -9,6 +7,7 @@ const DisqusComments = () => {
     script.src = 'https://cusdis.com/js/cusdis.es.js';
     script.async = true;
     script.defer = true;
+    script.crossOrigin = 'anonymous';
 
     document.body.appendChild(script);
 
@@ -30,7 +29,8 @@ const DisqusComments = () => {
             overflow: hidden;
           }
         `}
-      </style><h2>Komentar:</h2>
+      </style>
+      <h2>Komentar:</h2>
       <div
         id="cusdis_thread"
         data-host="https://cusdis.com"
@@ -44,4 +44,3 @@ const DisqusComments = () => {
 };
 
 export default DisqusComments;
-
