@@ -1,76 +1,39 @@
 import { useEffect } from 'react';
 
-declare global {
-  interface Window {
-    DISQUS: any;
-    disqus_config: any;
-  }
-}
 
 const DisqusComments = () => {
   useEffect(() => {
-    // Reset any existing Disqus instance
-    if (window.DISQUS) {
-      window.DISQUS.reset({
-        reload: true,
-      });
-      return;
-    }
-
-    // Configure Disqus
-    window.disqus_config = function () {
-      this.page.url = window.location.href; // Use the current page URL
-      this.page.identifier = window.location.pathname; // Use unique identifier for the page
-    };
-
-    // Load Disqus script
+    // Load Cusdis script
     const script = document.createElement('script');
-    script.src = 'https://ppdbsleman.disqus.com/embed.js';
-    script.setAttribute('data-timestamp', String(+new Date()));
+    script.src = 'https://cusdis.com/js/cusdis.es.js';
     script.async = true;
-    script.crossOrigin = 'anonymous'; // Add cross-origin attribute
-
-    // Error handling for script loading
-    script.onload = () => {
-      if (!window.DISQUS) {
-        console.error('Disqus did not initialize properly. Check your configuration.');
-      }
-    };
-    script.onerror = () => {
-      console.error('Error loading Disqus script. Possible CORS issue or incorrect domain setup.');
-    };
+    script.defer = true;
 
     document.body.appendChild(script);
 
-    // Cleanup on unmount
     return () => {
-      const disqusThread = document.getElementById('disqus_thread');
-      if (disqusThread) {
-        disqusThread.remove();
-      }
+      // Cleanup: remove the script
+      script.remove();
 
-      const disqusScript = document.querySelector('script[src*="disqus.com/embed.js"]');
-      if (disqusScript) {
-        disqusScript.remove();
+      // Optional: remove the div container if needed
+      const cusdisThread = document.getElementById('cusdis_thread');
+      if (cusdisThread) {
+        cusdisThread.remove();
       }
-
-      if (window.DISQUS) {
-        delete window.DISQUS;
-      }
-
-      delete window.disqus_config;
     };
   }, []);
 
   return (
-    <>
-      <div id="disqus_thread"></div>
-      <noscript>
-        Please enable JavaScript to view the{' '}
-        <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-      </noscript>
-    </>
+    <div
+      id="cusdis_thread"
+      data-host="https://cusdis.com"
+      data-app-id="e048e64e-1b6a-4db2-a0b8-fcd6ef3fc325"
+      data-page-id={window.location.pathname}
+      data-page-url={window.location.href}
+      data-page-title={document.title}
+    ></div>
   );
 };
 
 export default DisqusComments;
+
