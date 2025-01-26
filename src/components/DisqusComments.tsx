@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 
+
 const DisqusComments = () => {
   useEffect(() => {
     // Load Cusdis script
@@ -14,24 +15,31 @@ const DisqusComments = () => {
     return () => {
       // Cleanup: remove the script
       script.remove();
-
-      // Optional: remove the div container if needed
-      const cusdisThread = document.getElementById('cusdis_thread');
-      if (cusdisThread) {
-        cusdisThread.remove();
-      }
     };
   }, []);
 
   return (
-    <div
-      id="cusdis_thread"
-      data-host="https://cusdis.com"
-      data-app-id="e048e64e-1b6a-4db2-a0b8-fcd6ef3fc325"
-      data-page-id={window.location.pathname}
-      data-page-url={window.location.href}
-      data-page-title={document.title}
-    ></div>
+    <>
+      <style>
+        {`
+          #cusdis_thread iframe {
+            width: 100% !important;
+            min-height: 600px !important;
+            height: auto !important;
+            border: none;
+            overflow: hidden;
+          }
+        `}
+      </style>
+      <div
+        id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="e048e64e-1b6a-4db2-a0b8-fcd6ef3fc325"
+        data-page-id={window.location.pathname}
+        data-page-url={window.location.href}
+        data-page-title={document.title}
+      ></div>
+    </>
   );
 };
 
