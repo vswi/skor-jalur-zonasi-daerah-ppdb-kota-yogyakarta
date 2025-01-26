@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { RefreshCw, WhatsApp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Giscus from '@giscus/react';
 
 interface GradeData {
   subject: string;
@@ -49,8 +52,7 @@ const Index = () => {
   const [totalScore, setTotalScore] = useState<number>(0);
 
   const handleGradeChange = (subjectIndex: number, field: string, value: string) => {
-    // Remove leading zeros and handle empty/invalid inputs
-    const cleanedValue = value.replace(/^0+/, ''); // Remove leading zeros
+    const cleanedValue = value.replace(/^0+/, '');
     const numericValue = cleanedValue === '' ? 0 : parseFloat(cleanedValue);
     
     setGrades(prevGrades => {
@@ -76,6 +78,30 @@ const Index = () => {
       newGrades[subjectIndex] = subject;
       return newGrades;
     });
+  };
+
+  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.target.value = '';
+  };
+
+  const resetAllGrades = () => {
+    setGrades(prevGrades => 
+      prevGrades.map(subject => ({
+        ...subject,
+        grades: {
+          class4: { sem1: 0, sem2: 0 },
+          class5: { sem1: 0, sem2: 0 },
+          class6: { sem1: 0 }
+        },
+        aspdScore: 0
+      }))
+    );
+    setAdditionalScore(0);
+  };
+
+  const openWhatsApp = () => {
+    const message = encodeURIComponent("Halo, saya ingin bertanya tentang PPDB SMP Negeri Sleman");
+    window.open(`https://wa.me/628986886061?text=${message}`, '_blank');
   };
 
   const calculateSubjectSum = (gradeData: GradeData) => {
@@ -149,6 +175,25 @@ const Index = () => {
             <li>Skor total akan dihitung secara otomatis</li>
           </ol>
         </div>
+
+        <div className="flex justify-end gap-4 mb-4">
+          <Button
+            onClick={resetAllGrades}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className="h-4 w-4" />
+            Reset Semua Nilai
+          </Button>
+          <Button
+            onClick={openWhatsApp}
+            variant="default"
+            className="bg-green-600 hover:bg-green-700"
+          >
+            <WhatsApp className="h-4 w-4 mr-2" />
+            Tanya via WhatsApp
+          </Button>
+        </div>
         
         <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -185,6 +230,7 @@ const Index = () => {
                       max="100"
                       value={subject.grades.class4.sem1}
                       onChange={(e) => handleGradeChange(index, "4-1", e.target.value)}
+                      onFocus={handleInputFocus}
                       className="w-20 p-1 border rounded"
                     />
                   </td>
@@ -195,6 +241,7 @@ const Index = () => {
                       max="100"
                       value={subject.grades.class4.sem2}
                       onChange={(e) => handleGradeChange(index, "4-2", e.target.value)}
+                      onFocus={handleInputFocus}
                       className="w-20 p-1 border rounded"
                     />
                   </td>
@@ -205,6 +252,7 @@ const Index = () => {
                       max="100"
                       value={subject.grades.class5.sem1}
                       onChange={(e) => handleGradeChange(index, "5-1", e.target.value)}
+                      onFocus={handleInputFocus}
                       className="w-20 p-1 border rounded"
                     />
                   </td>
@@ -215,6 +263,7 @@ const Index = () => {
                       max="100"
                       value={subject.grades.class5.sem2}
                       onChange={(e) => handleGradeChange(index, "5-2", e.target.value)}
+                      onFocus={handleInputFocus}
                       className="w-20 p-1 border rounded"
                     />
                   </td>
@@ -225,6 +274,7 @@ const Index = () => {
                       max="100"
                       value={subject.grades.class6.sem1}
                       onChange={(e) => handleGradeChange(index, "6-1", e.target.value)}
+                      onFocus={handleInputFocus}
                       className="w-20 p-1 border rounded"
                     />
                   </td>
@@ -235,6 +285,7 @@ const Index = () => {
                       max="100"
                       value={subject.aspdScore}
                       onChange={(e) => handleGradeChange(index, "aspd", e.target.value)}
+                      onFocus={handleInputFocus}
                       className="w-20 p-1 border rounded"
                     />
                   </td>
@@ -327,6 +378,22 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="mt-8">
+          <Giscus
+            repo="your-github-username/your-repo-name"
+            repoId="your-repo-id"
+            category="Comments"
+            categoryId="your-category-id"
+            mapping="pathname"
+            term="PPDB Calculator"
+            reactionsEnabled="1"
+            emitMetadata="0"
+            inputPosition="top"
+            theme="light"
+            lang="id"
+          />
         </div>
       </div>
     </div>
