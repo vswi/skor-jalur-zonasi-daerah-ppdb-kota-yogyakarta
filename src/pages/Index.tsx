@@ -350,9 +350,9 @@ const Index = () => {
                   <li>Nilai Prestasi (Jika Ada)</li>
                 </ul>
                 <p className="mt-2">
-                  Berdasarkan rumus dalam{" "}
+                  Berdasarkan JUKNIS PPDB SMP NEGERI SLEMAN 2024-2025 di {" "}
                   <a 
-                    href="https://disdik.slemankab.go.id/wp-content/uploads/2023/05/JUKNIS-PPDB-SMP-TAHUN-PELAJARAN-2023-2024.pdf"
+                    href="https://smpn1prambanansleman.sch.id/wp-content/uploads/2024/05/Juknis-PPDB-SMP-2024-2025-Sleman.pdf"
                     className="text-blue-600 hover:underline"
                     target="_blank"
                     rel="noopener noreferrer"
