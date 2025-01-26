@@ -4,7 +4,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { RefreshCw, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Giscus from '@giscus/react';
+import DisqusComments from "@/components/DisqusComments";
 
 interface GradeData {
   subject: string;
@@ -101,7 +101,7 @@ const Index = () => {
 
   const openWhatsApp = () => {
     const message = encodeURIComponent("Halo, saya ingin bertanya tentang PPDB SMP Negeri Sleman");
-    window.open(`https://wa.me/628986886061?text=${message}`, '_blank');
+    window.open(`https://wa.me/628112500028?text=${message}`, '_blank');
   };
 
   const calculateSubjectSum = (gradeData: GradeData) => {
@@ -381,19 +381,7 @@ const Index = () => {
         </div>
 
         <div className="mt-8">
-          <Giscus
-            repo="your-github-username/your-repo-name"
-            repoId="your-repo-id"
-            category="Comments"
-            categoryId="your-category-id"
-            mapping="pathname"
-            term="PPDB Calculator"
-            reactionsEnabled="1"
-            emitMetadata="0"
-            inputPosition="top"
-            theme="light"
-            lang="id"
-          />
+          <DisqusComments />
         </div>
       </div>
     </div>
