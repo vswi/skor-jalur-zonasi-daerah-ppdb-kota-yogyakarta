@@ -198,36 +198,54 @@ const Index = () => {
           </Button>
         </div>
         
-        <div className="bg-white rounded-lg shadow overflow-x-auto">
-          <div className="min-w-[800px]"> {/* Minimum width container for horizontal scroll on mobile */}
+        <div className="bg-white rounded-lg shadow">
+          <div className="overflow-x-auto">
             <table className="w-full divide-y divide-gray-200">
-              <thead>
+              <thead className="bg-gray-50">
                 <tr>
-                  <th className="bg-blue-800 text-white px-4 py-3">Mata Pelajaran</th>
-                  <th className="bg-yellow-500 text-white px-4 py-2" colSpan={2}>Nilai Kelas 4</th>
-                  <th className="bg-cyan-500 text-white px-4 py-2" colSpan={2}>Nilai Kelas 5</th>
-                  <th className="bg-blue-600 text-white px-4 py-2">Nilai Kelas 6</th>
-                  <th className="bg-gray-700 text-white px-4 py-2">Nilai ASPD</th>
-                  <th className="bg-blue-900 text-white px-4 py-2">Jumlah Nilai Rapor</th>
-                  <th className="bg-blue-900 text-white px-4 py-2">Rata-Rata Nilai Rapor</th>
+                  <th className="bg-blue-800 text-white px-2 py-2 text-sm sm:px-4 sm:py-3 sm:text-base">Mata Pelajaran</th>
+                  <th className="bg-yellow-500 text-white px-2 py-2 text-sm sm:px-4 sm:text-base" colSpan={2}>
+                    <span className="hidden sm:inline">Nilai Kelas 4</span>
+                    <span className="sm:hidden">Kls 4</span>
+                  </th>
+                  <th className="bg-cyan-500 text-white px-2 py-2 text-sm sm:px-4 sm:text-base" colSpan={2}>
+                    <span className="hidden sm:inline">Nilai Kelas 5</span>
+                    <span className="sm:hidden">Kls 5</span>
+                  </th>
+                  <th className="bg-blue-600 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
+                    <span className="hidden sm:inline">Nilai Kelas 6</span>
+                    <span className="sm:hidden">Kls 6</span>
+                  </th>
+                  <th className="bg-gray-700 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
+                    <span className="hidden sm:inline">Nilai ASPD</span>
+                    <span className="sm:hidden">ASPD</span>
+                  </th>
+                  <th className="bg-blue-900 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
+                    <span className="hidden sm:inline">Jumlah Nilai Rapor</span>
+                    <span className="sm:hidden">Jumlah</span>
+                  </th>
+                  <th className="bg-blue-900 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
+                    <span className="hidden sm:inline">Rata-Rata Nilai Rapor</span>
+                    <span className="sm:hidden">Rata²</span>
+                  </th>
                 </tr>
                 <tr>
-                  <th className="px-4 py-2"></th>
-                  <th className="bg-yellow-400 text-white px-4 py-2">SMT 1</th>
-                  <th className="bg-yellow-400 text-white px-4 py-2">SMT 2</th>
-                  <th className="bg-cyan-400 text-white px-4 py-2">SMT 1</th>
-                  <th className="bg-cyan-400 text-white px-4 py-2">SMT 2</th>
-                  <th className="bg-blue-500 text-white px-4 py-2">SMT 1</th>
-                  <th className="px-4 py-2"></th>
-                  <th className="px-4 py-2"></th>
-                  <th className="px-4 py-2"></th>
+                  <th className="px-2 py-2 text-sm sm:px-4"></th>
+                  <th className="bg-yellow-400 text-white px-2 py-2 text-sm sm:px-4">SMT 1</th>
+                  <th className="bg-yellow-400 text-white px-2 py-2 text-sm sm:px-4">SMT 2</th>
+                  <th className="bg-cyan-400 text-white px-2 py-2 text-sm sm:px-4">SMT 1</th>
+                  <th className="bg-cyan-400 text-white px-2 py-2 text-sm sm:px-4">SMT 2</th>
+                  <th className="bg-blue-500 text-white px-2 py-2 text-sm sm:px-4">SMT 1</th>
+                  <th className="px-2 py-2 text-sm sm:px-4"></th>
+                  <th className="px-2 py-2 text-sm sm:px-4"></th>
+                  <th className="px-2 py-2 text-sm sm:px-4"></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {grades.map((subject, index) => (
                   <tr key={subject.subject}>
-                    <td className="px-4 py-2 font-medium">{subject.subject}</td>
-                    <td className="px-4 py-2">
+                    <td className="px-2 py-2 text-sm sm:px-4 font-medium whitespace-nowrap">{subject.subject}</td>
+                    <td className="px-1 py-1 sm:px-2 sm:py-2">
                       <input
                         type="number"
                         min="0"
@@ -235,10 +253,10 @@ const Index = () => {
                         value={subject.grades.class4.sem1}
                         onChange={(e) => handleGradeChange(index, "4-1", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-20 p-1 border rounded"
+                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-1 py-1 sm:px-2 sm:py-2">
                       <input
                         type="number"
                         min="0"
@@ -246,10 +264,10 @@ const Index = () => {
                         value={subject.grades.class4.sem2}
                         onChange={(e) => handleGradeChange(index, "4-2", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-20 p-1 border rounded"
+                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-1 py-1 sm:px-2 sm:py-2">
                       <input
                         type="number"
                         min="0"
@@ -257,10 +275,10 @@ const Index = () => {
                         value={subject.grades.class5.sem1}
                         onChange={(e) => handleGradeChange(index, "5-1", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-20 p-1 border rounded"
+                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-1 py-1 sm:px-2 sm:py-2">
                       <input
                         type="number"
                         min="0"
@@ -268,10 +286,10 @@ const Index = () => {
                         value={subject.grades.class5.sem2}
                         onChange={(e) => handleGradeChange(index, "5-2", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-20 p-1 border rounded"
+                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-1 py-1 sm:px-2 sm:py-2">
                       <input
                         type="number"
                         min="0"
@@ -279,10 +297,10 @@ const Index = () => {
                         value={subject.grades.class6.sem1}
                         onChange={(e) => handleGradeChange(index, "6-1", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-20 p-1 border rounded"
+                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-1 py-1 sm:px-2 sm:py-2">
                       <input
                         type="number"
                         min="0"
@@ -290,30 +308,30 @@ const Index = () => {
                         value={subject.aspdScore}
                         onChange={(e) => handleGradeChange(index, "aspd", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-20 p-1 border rounded"
+                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
                       />
                     </td>
-                    <td className="px-4 py-2 font-medium">
+                    <td className="px-2 py-2 text-sm sm:px-4 font-medium">
                       {calculateSubjectSum(subject)}
                     </td>
-                    <td className="px-4 py-2 font-medium">
+                    <td className="px-2 py-2 text-sm sm:px-4 font-medium">
                       {calculateSubjectAverage(subject)}
                     </td>
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan={6} className="px-4 py-2 text-right font-bold">
+                  <td colSpan={6} className="px-2 py-2 text-sm sm:px-4 text-right font-bold">
                     Total:
                   </td>
-                  <td className="px-4 py-2 font-bold">
+                  <td className="px-2 py-2 text-sm sm:px-4 font-bold">
                     {grades.reduce((acc, curr) => acc + curr.aspdScore, 0).toFixed(2)}
                   </td>
-                  <td className="px-4 py-2 font-bold">
+                  <td className="px-2 py-2 text-sm sm:px-4 font-bold">
                     {grades
                       .reduce((acc, curr) => acc + parseFloat(calculateSubjectSum(curr).toString()), 0)
                       .toFixed(2)}
                   </td>
-                  <td className="px-4 py-2 font-bold">
+                  <td className="px-2 py-2 text-sm sm:px-4 font-bold">
                     {grades
                       .reduce(
                         (acc, curr) => acc + parseFloat(calculateSubjectAverage(curr)),
