@@ -1,20 +1,13 @@
 import { useState, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { RefreshCw, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DisqusComments from "@/components/DisqusComments";
-
-interface GradeData {
-  subject: string;
-  grades: {
-    class4: { sem1: number; sem2: number };
-    class5: { sem1: number; sem2: number };
-    class6: { sem1: number };
-  };
-  aspdScore: number;
-}
+import Instructions from "@/components/Instructions";
+import SubjectCard from "@/components/SubjectCard";
+import ScoreInfo from "@/components/ScoreInfo";
+import { GradeData } from "@/types/grades";
 
 const Index = () => {
   const tableRef = useRef<HTMLDivElement>(null);
@@ -79,10 +72,6 @@ const Index = () => {
       newGrades[subjectIndex] = subject;
       return newGrades;
     });
-  };
-
-  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    event.target.value = '';
   };
 
   const resetAllGrades = () => {
@@ -161,21 +150,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 px-2 sm:py-8 sm:px-4">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto" ref={tableRef}>
-        <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
           Kalkulator Simulasi Skor PPDB SMP Negeri Sleman
         </h1>
         
-        <div className="bg-blue-50 p-3 sm:p-4 rounded-lg mb-4">
-          <h2 className="font-semibold text-blue-800 mb-2">Petunjuk Penggunaan:</h2>
-          <ol className="list-decimal list-inside text-blue-700 space-y-1 text-sm sm:text-base">
-            <li>Isikan nilai rapor untuk setiap mata pelajaran di setiap semester</li>
-            <li>Masukkan nilai ASPD untuk setiap mata pelajaran</li>
-            <li>Jika ada, tambahkan nilai prestasi pada kolom yang tersedia</li>
-            <li>Skor total akan dihitung secara otomatis</li>
-          </ol>
-        </div>
+        <Instructions />
 
         <div className="flex flex-col sm:flex-row justify-end gap-2 mb-4">
           <Button
@@ -197,117 +178,29 @@ const Index = () => {
         </div>
 
         <div className="bg-white rounded-lg shadow">
-          <div className="grid grid-cols-1 gap-4 p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
             {grades.map((subject, index) => (
-              <div key={subject.subject} className="border p-4 rounded-lg bg-white shadow-sm">
-                <h3 className="font-semibold text-lg mb-3">{subject.subject}</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  <div className="space-y-2">
-                    <div>
-                      <label className="text-sm font-medium block">Kls 4 SMT 1</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={subject.grades.class4.sem1}
-                        onChange={(e) => handleGradeChange(index, "4-1", e.target.value)}
-                        onFocus={handleInputFocus}
-                        className="w-full p-1 border rounded text-center"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium block">Kls 4 SMT 2</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={subject.grades.class4.sem2}
-                        onChange={(e) => handleGradeChange(index, "4-2", e.target.value)}
-                        onFocus={handleInputFocus}
-                        className="w-full p-1 border rounded text-center"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div>
-                      <label className="text-sm font-medium block">Kls 5 SMT 1</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={subject.grades.class5.sem1}
-                        onChange={(e) => handleGradeChange(index, "5-1", e.target.value)}
-                        onFocus={handleInputFocus}
-                        className="w-full p-1 border rounded text-center"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium block">Kls 5 SMT 2</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={subject.grades.class5.sem2}
-                        onChange={(e) => handleGradeChange(index, "5-2", e.target.value)}
-                        onFocus={handleInputFocus}
-                        className="w-full p-1 border rounded text-center"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div>
-                      <label className="text-sm font-medium block">Kls 6 SMT 1</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={subject.grades.class6.sem1}
-                        onChange={(e) => handleGradeChange(index, "6-1", e.target.value)}
-                        onFocus={handleInputFocus}
-                        className="w-full p-1 border rounded text-center"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium block">Nilai ASPD</label>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        value={subject.aspdScore}
-                        onChange={(e) => handleGradeChange(index, "aspd", e.target.value)}
-                        onFocus={handleInputFocus}
-                        className="w-full p-1 border rounded text-center"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-2 sm:col-span-3 grid grid-cols-2 gap-3 mt-2 bg-gray-50 p-2 rounded">
-                    <div>
-                      <label className="text-sm font-medium block">Jumlah Nilai Rapor</label>
-                      <span className="font-medium block text-center">{calculateSubjectSum(subject)}</span>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium block">Rata-Rata Nilai Rapor</label>
-                      <span className="font-medium block text-center">{calculateSubjectAverage(subject)}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <SubjectCard
+                key={subject.subject}
+                subject={subject}
+                index={index}
+                onGradeChange={handleGradeChange}
+                calculateSubjectSum={calculateSubjectSum}
+                calculateSubjectAverage={calculateSubjectAverage}
+              />
             ))}
           </div>
 
-          <div className="p-4 border-t space-y-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-              <label className="font-medium whitespace-nowrap">Tambahan Nilai Prestasi:</label>
+          <div className="p-4 border-t">
+            <div className="flex items-center gap-4 mb-4">
+              <label className="font-medium">Tambahan Nilai Prestasi (jika ada):</label>
               <input
                 type="number"
                 value={additionalScore}
                 onChange={(e) => setAdditionalScore(parseFloat(e.target.value) || 0)}
                 onMouseDown={() => setAdditionalScore(0)}
                 onTouchStart={() => setAdditionalScore(0)}
-                className="w-32 p-2 border rounded text-center"
+                className="w-32 p-2 border rounded"
               />
             </div>
 
@@ -319,25 +212,7 @@ const Index = () => {
                 </span>
               </div>
               
-              <div className="text-sm text-gray-600 bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold mb-2">* SKOR TOTAL PPDB Sleman adalah gabungan:</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>(Total Nilai ASPD × 60%)</li>
-                  <li>(Total Rata-Rata Rapor × 40%)</li>
-                  <li>Nilai Prestasi (Jika Ada)</li>
-                </ul>
-                <p className="mt-2">
-                  Berdasarkan JUKNIS PPDB SMP NEGERI SLEMAN 2024-2025 di {" "}
-                  <a 
-                    href="https://smpn1prambanansleman.sch.id/wp-content/uploads/2024/05/Juknis-PPDB-SMP-2024-2025-Sleman.pdf"
-                    className="text-blue-600 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Juknis PPDB SMP
-                  </a>
-                </p>
-              </div>
+              <ScoreInfo totalScore={totalScore} />
 
               <div className="flex flex-col sm:flex-row gap-2">
                 <Button
