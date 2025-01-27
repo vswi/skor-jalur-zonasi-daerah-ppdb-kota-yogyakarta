@@ -5,7 +5,6 @@ import jsPDF from "jspdf";
 import { RefreshCw, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import DisqusComments from "@/components/DisqusComments";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 interface GradeData {
   subject: string;
@@ -19,7 +18,6 @@ interface GradeData {
 
 const Index = () => {
   const tableRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
   
   const [grades, setGrades] = useState<GradeData[]>([
     {
@@ -163,13 +161,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-4 px-2 sm:py-8 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-4 px-2 sm:py-8 sm:px-4">
       <div className="max-w-7xl mx-auto" ref={tableRef}>
         <h1 className="text-xl sm:text-3xl font-bold text-gray-900 mb-4 text-center">
           Kalkulator Simulasi Skor PPDB SMP Negeri Sleman
         </h1>
         
-        <div className="bg-blue-50 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6">
+        <div className="bg-blue-50 p-3 sm:p-4 rounded-lg mb-4">
           <h2 className="font-semibold text-blue-800 mb-2">Petunjuk Penggunaan:</h2>
           <ol className="list-decimal list-inside text-blue-700 space-y-1 text-sm sm:text-base">
             <li>Isikan nilai rapor untuk setiap mata pelajaran di setiap semester</li>
@@ -179,11 +177,11 @@ const Index = () => {
           </ol>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row justify-end gap-2 mb-4">
           <Button
             onClick={resetAllGrades}
             variant="outline"
-            className="flex items-center gap-2 w-full sm:w-auto"
+            className="flex items-center gap-2"
           >
             <RefreshCw className="h-4 w-4" />
             Reset Semua Nilai
@@ -191,61 +189,22 @@ const Index = () => {
           <Button
             onClick={openWhatsApp}
             variant="default"
-            className="bg-green-600 hover:bg-green-700 w-full sm:w-auto"
+            className="bg-green-600 hover:bg-green-700"
           >
             <MessageCircle className="h-4 w-4 mr-2" />
             Tanya via WhatsApp
           </Button>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow">
-          <div className="overflow-x-auto">
-            <table className="w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="bg-blue-800 text-white px-2 py-2 text-sm sm:px-4 sm:py-3 sm:text-base">Mata Pelajaran</th>
-                  <th className="bg-yellow-500 text-white px-2 py-2 text-sm sm:px-4 sm:text-base" colSpan={2}>
-                    <span className="hidden sm:inline">Nilai Kelas 4</span>
-                    <span className="sm:hidden">Kls 4</span>
-                  </th>
-                  <th className="bg-cyan-500 text-white px-2 py-2 text-sm sm:px-4 sm:text-base" colSpan={2}>
-                    <span className="hidden sm:inline">Nilai Kelas 5</span>
-                    <span className="sm:hidden">Kls 5</span>
-                  </th>
-                  <th className="bg-blue-600 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
-                    <span className="hidden sm:inline">Nilai Kelas 6</span>
-                    <span className="sm:hidden">Kls 6</span>
-                  </th>
-                  <th className="bg-gray-700 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
-                    <span className="hidden sm:inline">Nilai ASPD</span>
-                    <span className="sm:hidden">ASPD</span>
-                  </th>
-                  <th className="bg-blue-900 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
-                    <span className="hidden sm:inline">Jumlah Nilai Rapor</span>
-                    <span className="sm:hidden">Jumlah</span>
-                  </th>
-                  <th className="bg-blue-900 text-white px-2 py-2 text-sm sm:px-4 sm:text-base">
-                    <span className="hidden sm:inline">Rata-Rata Nilai Rapor</span>
-                    <span className="sm:hidden">Rata²</span>
-                  </th>
-                </tr>
-                <tr>
-                  <th className="px-2 py-2 text-sm sm:px-4"></th>
-                  <th className="bg-yellow-400 text-white px-2 py-2 text-sm sm:px-4">SMT 1</th>
-                  <th className="bg-yellow-400 text-white px-2 py-2 text-sm sm:px-4">SMT 2</th>
-                  <th className="bg-cyan-400 text-white px-2 py-2 text-sm sm:px-4">SMT 1</th>
-                  <th className="bg-cyan-400 text-white px-2 py-2 text-sm sm:px-4">SMT 2</th>
-                  <th className="bg-blue-500 text-white px-2 py-2 text-sm sm:px-4">SMT 1</th>
-                  <th className="px-2 py-2 text-sm sm:px-4"></th>
-                  <th className="px-2 py-2 text-sm sm:px-4"></th>
-                  <th className="px-2 py-2 text-sm sm:px-4"></th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {grades.map((subject, index) => (
-                  <tr key={subject.subject}>
-                    <td className="px-2 py-2 text-sm sm:px-4 font-medium whitespace-nowrap">{subject.subject}</td>
-                    <td className="px-1 py-1 sm:px-2 sm:py-2">
+          <div className="grid grid-cols-1 gap-4 p-4">
+            {grades.map((subject, index) => (
+              <div key={subject.subject} className="border p-4 rounded-lg bg-white shadow-sm">
+                <h3 className="font-semibold text-lg mb-3">{subject.subject}</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="space-y-2">
+                    <div>
+                      <label className="text-sm font-medium block">Kls 4 SMT 1</label>
                       <input
                         type="number"
                         min="0"
@@ -253,10 +212,11 @@ const Index = () => {
                         value={subject.grades.class4.sem1}
                         onChange={(e) => handleGradeChange(index, "4-1", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
+                        className="w-full p-1 border rounded text-center"
                       />
-                    </td>
-                    <td className="px-1 py-1 sm:px-2 sm:py-2">
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium block">Kls 4 SMT 2</label>
                       <input
                         type="number"
                         min="0"
@@ -264,10 +224,14 @@ const Index = () => {
                         value={subject.grades.class4.sem2}
                         onChange={(e) => handleGradeChange(index, "4-2", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
+                        className="w-full p-1 border rounded text-center"
                       />
-                    </td>
-                    <td className="px-1 py-1 sm:px-2 sm:py-2">
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div>
+                      <label className="text-sm font-medium block">Kls 5 SMT 1</label>
                       <input
                         type="number"
                         min="0"
@@ -275,10 +239,11 @@ const Index = () => {
                         value={subject.grades.class5.sem1}
                         onChange={(e) => handleGradeChange(index, "5-1", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
+                        className="w-full p-1 border rounded text-center"
                       />
-                    </td>
-                    <td className="px-1 py-1 sm:px-2 sm:py-2">
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium block">Kls 5 SMT 2</label>
                       <input
                         type="number"
                         min="0"
@@ -286,10 +251,14 @@ const Index = () => {
                         value={subject.grades.class5.sem2}
                         onChange={(e) => handleGradeChange(index, "5-2", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
+                        className="w-full p-1 border rounded text-center"
                       />
-                    </td>
-                    <td className="px-1 py-1 sm:px-2 sm:py-2">
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div>
+                      <label className="text-sm font-medium block">Kls 6 SMT 1</label>
                       <input
                         type="number"
                         min="0"
@@ -297,10 +266,11 @@ const Index = () => {
                         value={subject.grades.class6.sem1}
                         onChange={(e) => handleGradeChange(index, "6-1", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
+                        className="w-full p-1 border rounded text-center"
                       />
-                    </td>
-                    <td className="px-1 py-1 sm:px-2 sm:py-2">
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium block">Nilai ASPD</label>
                       <input
                         type="number"
                         min="0"
@@ -308,54 +278,36 @@ const Index = () => {
                         value={subject.aspdScore}
                         onChange={(e) => handleGradeChange(index, "aspd", e.target.value)}
                         onFocus={handleInputFocus}
-                        className="w-12 sm:w-20 p-1 border rounded text-sm sm:text-base"
+                        className="w-full p-1 border rounded text-center"
                       />
-                    </td>
-                    <td className="px-2 py-2 text-sm sm:px-4 font-medium">
-                      {calculateSubjectSum(subject)}
-                    </td>
-                    <td className="px-2 py-2 text-sm sm:px-4 font-medium">
-                      {calculateSubjectAverage(subject)}
-                    </td>
-                  </tr>
-                ))}
-                <tr>
-                  <td colSpan={6} className="px-2 py-2 text-sm sm:px-4 text-right font-bold">
-                    Total:
-                  </td>
-                  <td className="px-2 py-2 text-sm sm:px-4 font-bold">
-                    {grades.reduce((acc, curr) => acc + curr.aspdScore, 0).toFixed(2)}
-                  </td>
-                  <td className="px-2 py-2 text-sm sm:px-4 font-bold">
-                    {grades
-                      .reduce((acc, curr) => acc + parseFloat(calculateSubjectSum(curr).toString()), 0)
-                      .toFixed(2)}
-                  </td>
-                  <td className="px-2 py-2 text-sm sm:px-4 font-bold">
-                    {grades
-                      .reduce(
-                        (acc, curr) => acc + parseFloat(calculateSubjectAverage(curr)),
-                        0
-                      )
-                      .toFixed(2)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                    </div>
+                  </div>
+
+                  <div className="col-span-2 sm:col-span-3 grid grid-cols-2 gap-3 mt-2 bg-gray-50 p-2 rounded">
+                    <div>
+                      <label className="text-sm font-medium block">Jumlah Nilai Rapor</label>
+                      <span className="font-medium block text-center">{calculateSubjectSum(subject)}</span>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium block">Rata-Rata Nilai Rapor</label>
+                      <span className="font-medium block text-center">{calculateSubjectAverage(subject)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="p-4 border-t">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4">
-              <label className="font-medium whitespace-nowrap">
-                Tambahan Nilai Prestasi:
-              </label>
+          <div className="p-4 border-t space-y-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+              <label className="font-medium whitespace-nowrap">Tambahan Nilai Prestasi:</label>
               <input
                 type="number"
                 value={additionalScore}
                 onChange={(e) => setAdditionalScore(parseFloat(e.target.value) || 0)}
                 onMouseDown={() => setAdditionalScore(0)}
                 onTouchStart={() => setAdditionalScore(0)}
-                className="w-32 p-2 border rounded"
+                className="w-32 p-2 border rounded text-center"
               />
             </div>
 
@@ -387,19 +339,19 @@ const Index = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4">
-                <button
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button
                   onClick={exportAsPDF}
-                  className="w-full sm:w-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
                 >
                   Export sebagai PDF
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={exportAsImage}
-                  className="w-full sm:w-auto bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors"
+                  className="w-full sm:w-auto bg-green-600 hover:bg-green-700"
                 >
                   Export sebagai Gambar
-                </button>
+                </Button>
               </div>
             </div>
           </div>
