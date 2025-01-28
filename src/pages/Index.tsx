@@ -7,7 +7,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center space-y-6 p-8">
         <h1 className="text-3xl font-bold text-gray-900">
-          Selamat Datang di Simulasi PPDB SMP Negeri Sleman
+          Calculator
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Gunakan kalkulator kami untuk mensimulasikan skor PPDB SMP Negeri Sleman Anda.
