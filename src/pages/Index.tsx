@@ -198,8 +198,8 @@ const Index = () => {
                 type="number"
                 value={additionalScore}
                 onChange={(e) => setAdditionalScore(parseFloat(e.target.value) || 0)}
-                onMouseDown={() => setAdditionalScore(0)}
-                onTouchStart={() => setAdditionalScore(0)}
+                onMouseDown={() => setAdditionalScore(NaN)}
+                onTouchStart={() => setAdditionalScore(NaN)}
                 className="w-32 p-2 border rounded"
               />
             </div>
