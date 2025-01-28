@@ -43,6 +43,7 @@ const Index = () => {
   ]);
 
   const [additionalScore, setAdditionalScore] = useState<number>(0);
+  const [additionalScoreDisplay, setAdditionalScoreDisplay] = useState<string>('0');
   const [totalScore, setTotalScore] = useState<number>(0);
 
   const handleGradeChange = (subjectIndex: number, field: string, value: string) => {
@@ -149,6 +150,12 @@ const Index = () => {
     }
   };
 
+  const handleAdditionalScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAdditionalScoreDisplay(value);
+    setAdditionalScore(value === '' ? 0 : parseFloat(value) || 0);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto" ref={tableRef}>
@@ -196,10 +203,10 @@ const Index = () => {
               <label className="font-medium">Tambahan Nilai Prestasi (jika ada):</label>
               <input
                 type="number"
-                value={additionalScore}
-                onChange={(e) => setAdditionalScore(parseFloat(e.target.value) || 0)}
-                onMouseDown={() => setAdditionalScore(NaN)}
-                onTouchStart={() => setAdditionalScore(NaN)}
+                value={additionalScoreDisplay}
+                onChange={handleAdditionalScoreChange}
+                onMouseDown={() => setAdditionalScoreDisplay('')}
+                onTouchStart={() => setAdditionalScoreDisplay('')}
                 className="w-32 p-2 border rounded"
               />
             </div>
