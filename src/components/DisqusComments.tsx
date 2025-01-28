@@ -1,19 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const DisqusComments = () => {
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
+
   useEffect(() => {
-    // Load Cusdis script
+    // Check if script is already loaded
+    if (document.querySelector('script[src="https://cusdis.com/js/cusdis.es.js"]')) {
+      return;
+    }
+
+    // Create script element
     const script = document.createElement('script');
     script.src = 'https://cusdis.com/js/cusdis.es.js';
     script.async = true;
     script.defer = true;
     script.crossOrigin = 'anonymous';
 
+    // Store reference to script
+    scriptRef.current = script;
     document.body.appendChild(script);
 
     return () => {
-      // Cleanup: remove the script
-      script.remove();
+      // Cleanup: remove the script if it exists and was added by this component
+      if (scriptRef.current) {
+        scriptRef.current.remove();
+        scriptRef.current = null;
+      }
     };
   }, []);
 
