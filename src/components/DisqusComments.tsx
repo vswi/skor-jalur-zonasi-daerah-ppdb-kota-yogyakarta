@@ -3,7 +3,7 @@ import { DiscussionEmbed } from 'disqus-react';
 const DisqusComments = () => {
   const disqusShortname = 'ppdb-sleman';
   const disqusConfig = {
-    url: window.location.href.replace('://', '/'),
+    url: window.location.href,
     identifier: '1',
     title: 'Kalkulator Simulasi Skor PPDB SMP Negeri Sleman',
   };
