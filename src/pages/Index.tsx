@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { RefreshCw, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import DisqusComments from "@/components/DisqusComments";
+import CusdisComments from "@/components/CusdisComments";
 import Instructions from "@/components/Instructions";
 import SubjectCard from "@/components/SubjectCard";
 import ScoreInfo from "@/components/ScoreInfo";
@@ -240,7 +240,7 @@ const Index = () => {
         </div>
 
         <div className="mt-8">
-          <DisqusComments />
+          <CusdisComments />
         </div>
       </div>
     </div>
