@@ -6,7 +6,7 @@ const Instructions = () => {
         <li>Isikan nilai rapor untuk setiap mata pelajaran di setiap semester</li>
         <li>Masukkan nilai ASPD untuk setiap mata pelajaran</li>
         <li>Jika ada, tambahkan nilai prestasi pada kolom yang tersedia</li>
-        <li>Skor total akan dihitung secara otomatis</li>
+        <li>Skor Total PPDB Sleman akan dihitung secara otomatis</li>
       </ol>
     </div>
   );
