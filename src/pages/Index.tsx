@@ -7,6 +7,8 @@ import CusdisComments from "@/components/CusdisComments";
 import Instructions from "@/components/Instructions";
 import SubjectCard from "@/components/SubjectCard";
 import ScoreInfo from "@/components/ScoreInfo";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { GradeData } from "@/types/grades";
 
 const Index = () => {
@@ -157,34 +159,36 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto" ref={tableRef}>
-        <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-          Kalkulator Simulasi Skor PPDB Jalur Zonasi Daerah di SMP Negeri Kota Yogyakarta
-        </h1>
-        
-        <Instructions />
+    <>
+      <Navigation />
+      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto" ref={tableRef}>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
+            Kalkulator Simulasi Skor PPDB Jalur Zonasi Daerah di SMP Negeri Kota Yogyakarta
+          </h1>
+          
+          <Instructions />
 
-        <div className="flex flex-col sm:flex-row justify-end gap-2 mb-4">
-          <Button
-            onClick={resetAllGrades}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <RefreshCw className="h-4 w-4" />
-            Reset Semua Nilai
-          </Button>
-          <Button
-            onClick={openWhatsApp}
-            variant="default"
-            className="bg-green-600 hover:bg-green-700"
-          >
-            <MessageCircle className="h-4 w-4 mr-2" />
-            Tanya via WhatsApp
-          </Button>
-        </div>
+          <div className="flex flex-col sm:flex-row justify-end gap-2 mb-4">
+            <Button
+              onClick={resetAllGrades}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <RefreshCw className="h-4 w-4" />
+              Reset Semua Nilai
+            </Button>
+            <Button
+              onClick={openWhatsApp}
+              variant="default"
+              className="bg-green-600 hover:bg-green-700"
+            >
+              <MessageCircle className="h-4 w-4 mr-2" />
+              Tanya via WhatsApp
+            </Button>
+          </div>
 
-        <div className="bg-white rounded-lg shadow">
+          <div className="bg-white rounded-lg shadow">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
             {grades.map((subject, index) => (
               <SubjectCard
@@ -238,12 +242,15 @@ const Index = () => {
             </div>
           </div>
         </div>
+          </div>
 
-        <div className="mt-8">
-          <CusdisComments />
+          <div className="mt-8">
+            <CusdisComments />
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
