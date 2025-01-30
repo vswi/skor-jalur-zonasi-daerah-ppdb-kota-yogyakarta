@@ -91,8 +91,8 @@ const Index = () => {
   };
 
   const openWhatsApp = () => {
-    const message = encodeURIComponent("Halo, saya ingin bertanya tentang PPDB SMP Negeri Sleman");
-    window.open(`https://wa.me/628112500028?text=${message}`, '_blank');
+    const message = encodeURIComponent("Halo, saya ingin bertanya tentang PPDB SMP Negeri Kota Yogyakarta");
+    window.open(`https://wa.me/628122760001?text=${message}`, '_blank');
   };
 
   const calculateSubjectSum = (gradeData: GradeData) => {
@@ -118,7 +118,7 @@ const Index = () => {
     );
     const aspdSum = grades.reduce((acc, curr) => acc + curr.aspdScore, 0);
     
-    const total = (averageSum * 0.4) + (aspdSum * 0.6) + additionalScore;
+    const total = (averageSum * 0.2) + (aspdSum * 0.8) + additionalScore;
     setTotalScore(parseFloat(total.toFixed(2)));
   };
 
@@ -160,7 +160,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto" ref={tableRef}>
         <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-          Kalkulator Simulasi Skor PPDB SMP Negeri Sleman
+          Kalkulator Simulasi Skor PPDB Jalur Zonasi Daerah di SMP Negeri Kota Yogyakarta
         </h1>
         
         <Instructions />
