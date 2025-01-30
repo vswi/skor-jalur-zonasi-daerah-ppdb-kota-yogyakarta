@@ -189,59 +189,58 @@ const Index = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
-            {grades.map((subject, index) => (
-              <SubjectCard
-                key={subject.subject}
-                subject={subject}
-                index={index}
-                onGradeChange={handleGradeChange}
-                calculateSubjectSum={calculateSubjectSum}
-                calculateSubjectAverage={calculateSubjectAverage}
-              />
-            ))}
-          </div>
-
-          <div className="p-4 border-t">
-            <div className="flex items-center gap-4 mb-4">
-              <label className="font-medium">Tambahan Nilai Prestasi (jika ada):</label>
-              <input
-                type="number"
-                value={additionalScoreDisplay}
-                onChange={handleAdditionalScoreChange}
-                onMouseDown={() => setAdditionalScoreDisplay('')}
-                onTouchStart={() => setAdditionalScoreDisplay('')}
-                className="w-32 p-2 border rounded"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
+              {grades.map((subject, index) => (
+                <SubjectCard
+                  key={subject.subject}
+                  subject={subject}
+                  index={index}
+                  onGradeChange={handleGradeChange}
+                  calculateSubjectSum={calculateSubjectSum}
+                  calculateSubjectAverage={calculateSubjectAverage}
+                />
+              ))}
             </div>
 
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-4">
-                <span className="font-bold">SKOR TOTAL PPDB:</span>
-                <span className="text-2xl font-bold text-blue-600">
-                  {totalScore.toFixed(2)}
-                </span>
+            <div className="p-4 border-t">
+              <div className="flex items-center gap-4 mb-4">
+                <label className="font-medium">Tambahan Nilai Prestasi (jika ada):</label>
+                <input
+                  type="number"
+                  value={additionalScoreDisplay}
+                  onChange={handleAdditionalScoreChange}
+                  onMouseDown={() => setAdditionalScoreDisplay('')}
+                  onTouchStart={() => setAdditionalScoreDisplay('')}
+                  className="w-32 p-2 border rounded"
+                />
               </div>
-              
-              <ScoreInfo totalScore={totalScore} />
 
-              <div className="flex flex-col sm:flex-row gap-2">
-                <Button
-                  onClick={exportAsPDF}
-                  className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
-                >
-                  Export sebagai PDF
-                </Button>
-                <Button
-                  onClick={exportAsImage}
-                  className="w-full sm:w-auto bg-green-600 hover:bg-green-700"
-                >
-                  Export sebagai Gambar
-                </Button>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <span className="font-bold">SKOR TOTAL PPDB:</span>
+                  <span className="text-2xl font-bold text-blue-600">
+                    {totalScore.toFixed(2)}
+                  </span>
+                </div>
+                
+                <ScoreInfo totalScore={totalScore} />
+
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button
+                    onClick={exportAsPDF}
+                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700"
+                  >
+                    Export sebagai PDF
+                  </Button>
+                  <Button
+                    onClick={exportAsImage}
+                    className="w-full sm:w-auto bg-green-600 hover:bg-green-700"
+                  >
+                    Export sebagai Gambar
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
           </div>
 
           <div className="mt-8">
