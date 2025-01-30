@@ -1,6 +1,6 @@
 const links = [
   {
-    title: "SIMULASI SKOR PPDB YOGYAKARTA",
+    title: "SIMULASI SKOR PPDB KOTA YOGYAKARTA",
     url: "https://simulasi-skor-ppdb-kota-yogyakarta.job.web.id/",
   },
   {
