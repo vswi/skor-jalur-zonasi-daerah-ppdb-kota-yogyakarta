@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 
 function App() {
+  // Move QueryClient creation inside component
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
