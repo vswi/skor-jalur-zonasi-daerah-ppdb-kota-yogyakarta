@@ -15,23 +15,24 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
 
-    <script>
+<script>
   let opened = false;
   function openPopUnder() {
     if (!opened) {
       opened = true;
-      const a = document.createElement('a');
-      a.href = "https://s.shopee.co.id/6AY5PPM3b0";
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-      // Simulasikan klik
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      const newTab = window.open("https://s.shopee.co.id/6AY5PPM3b0", "_blank", "noopener");
+      if (newTab) {
+        // Coba kembalikan fokus ke tab utama setelah sedikit delay
+        setTimeout(() => {
+          newTab.blur();
+          window.focus();
+        }, 100);
+      }
     }
   }
   document.addEventListener('click', openPopUnder, { once: true });
 </script>
+
 
 
     
